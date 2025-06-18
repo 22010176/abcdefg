@@ -5,6 +5,8 @@ import Layout from "./components/Layout"
 import BangCap from "./pages/BangCap"
 import GiangVien from "./pages/GiangVien"
 import Khoa from "./pages/Khoa";
+import HocPhan from "./pages/HocPhan";
+import HocKi from "./pages/HocKi";
 
 
 function App() {
@@ -18,10 +20,10 @@ function App() {
           <Route path="/bang-cap" element={<BangCap />} />
           <Route path="/thong-ke-giang-vien" element={""} />
 
-          <Route path="/hoc-ki" element={""} />
-          <Route path="/hoc-phan" element={""} />
+          <Route path="/hoc-ki" element={<HocKi />} />
+          <Route path="/hoc-phan" element={<HocPhan />} />
           <Route path="/lop-hoc-phan" element={""} />
-          <Route path="/thoi-khoa-bieu" element={""} />
+          {/* <Route path="/thoi-khoa-bieu" element={""} /> */}
           <Route path="/thong-ke-so-lop" element={""} />
         </Route>
       </Routes>
