@@ -53,7 +53,7 @@ function GiangVien() {
 
   const columns = [
     { title: 'STT', dataIndex: 'stt', key: 'stt', render: (_, __, i) => i + 1 },
-    { title: 'Mã giảng viên', dataIndex: 'id', key: 'id', },
+    { title: 'Mã giảng viên', dataIndex: 'id', key: 'id', render: _ => `GV_${_}` },
     { title: 'Họ tên', dataIndex: 'hoTen', key: 'hoTen', },
     { title: 'Ngày sinh', dataIndex: 'ngaySinh', key: 'ngaySinh', render: value => formatDate(value) },
     { title: 'Số điện thoại', dataIndex: 'dienThoai', key: 'dienThoai', },

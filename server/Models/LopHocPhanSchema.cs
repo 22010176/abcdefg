@@ -38,12 +38,12 @@ public class LopHocPhan
   public string TenLopHocPhan { get; set; } = null!;
   public int SoSinhVienDangKi { get; set; }
 
-  public int HocPhanId { get; set; }
-  public HocPhan HocPhan { get; set; } = null!;
+  public int? HocPhanId { get; set; }
+  public HocPhan? HocPhan { get; set; }
 
-  public int HocKiId { get; set; }
-  public HocKi HocKi { get; set; } = null!;
+  public int? HocKiId { get; set; }
+  public HocKi? HocKi { get; set; }
 
-  public int GiangVienId { get; set; }
-  public GiangVien GiangVien { get; set; } = null!;
+  public int? GiangVienId { get; set; }
+  public GiangVien? GiangVien { get; set; }
 }

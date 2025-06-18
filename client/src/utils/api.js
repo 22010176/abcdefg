@@ -19,6 +19,7 @@ export async function getHocPhan() {
   const result = await axios.get("http://localhost:5096/HocPhan")
   return result.data
 }
+
 export async function getHocKi() {
   const result = await axios.get("http://localhost:5096/HocKi")
   return result.data
