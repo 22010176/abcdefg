@@ -35,7 +35,7 @@ function PhanCongGiangVien() {
 
   const columns = [
     { title: 'STT', dataIndex: 'stt', key: 'stt', render: (_, __, i) => i + 1 },
-    { title: 'Tên lớp học phần', dataIndex: 'tenLopHocPhan', key: 'tenLopHocPhan', },
+    { title: 'Tên lớp chưa phân công', dataIndex: 'tenLopHocPhan', key: 'tenLopHocPhan', },
     { title: 'Số sinh viên đã đăng kí', dataIndex: 'soSinhVienDangKi', key: 'soSinhVienDangKi', },
     { title: 'Học phần', dataIndex: 'tenHocPhan', key: 'tenHocPhan', },
     { title: 'Học kì', dataIndex: 'tenHocKi', key: 'tenHocKi', },

@@ -1,10 +1,10 @@
-import { faChalkboardTeacher, faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button, Input, InputNumber, Modal, Select, Table, Tag } from "antd"
+import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Input, InputNumber, Modal, Select, Table, Tag } from "antd";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
-import { getHocKi, getHocPhan, getKhoa, getLopHocPhan } from "../../utils/api";
+import { getHocKi, getHocPhan, getLopHocPhan } from "../../utils/api";
 import { DataContext } from "./context";
 
 const url = "http://localhost:5096/LopHocPhan"

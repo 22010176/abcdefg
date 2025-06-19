@@ -29,3 +29,13 @@ export async function getLopHocPhan() {
   const result = await axios.get("http://localhost:5096/LopHocPhan")
   return result.data
 }
+
+export async function getDinhMuc() {
+  const result = await axios.get("http://localhost:5096/DinhMuc")
+  return result.data
+}
+
+export async function getHeSoLopHocPhan(year) {
+  const result = await axios.get(`http://localhost:5096/HeSoLopHocPhan/${year}`)
+  return result.data
+}

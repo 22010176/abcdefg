@@ -8,6 +8,7 @@ import Khoa from "./pages/Khoa";
 import HocPhan from "./pages/HocPhan";
 import HocKi from "./pages/HocKi";
 import LopHocPhan from "./pages/LopHocPhan";
+import CaiDatHeSo from "./pages/CaiDatHeSo";
 
 
 function App() {
@@ -24,8 +25,10 @@ function App() {
           <Route path="/hoc-ki" element={<HocKi />} />
           <Route path="/hoc-phan" element={<HocPhan />} />
           <Route path="/lop-hoc-phan" element={<LopHocPhan />} />
-          {/* <Route path="/thoi-khoa-bieu" element={""} /> */}
           <Route path="/thong-ke-so-lop" element={""} />
+
+          <Route path="/cai-dat" element={<CaiDatHeSo />} />
+          <Route path="/tinh-tien-day" element={""} />
         </Route>
       </Routes>
     </BrowserRouter>

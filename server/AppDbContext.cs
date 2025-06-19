@@ -15,4 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
   public DbSet<HeSoHocPhan> HeSoHocPhan { get; set; }
   public DbSet<HocKi> HocKi { get; set; }
   public DbSet<LopHocPhan> LopHocPhan { get; set; }
+
+  public DbSet<DinhMucTietChuan> DinhMucTietChuan { get; set; }
+  public DbSet<HeSoLopHocPhan> HeSoLopHocPhan { get; set; }
 }

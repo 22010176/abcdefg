@@ -30,7 +30,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -1,5 +1,5 @@
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
-import { faChalkboardTeacher, faChevronRight, faHouse, faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardTeacher, faChevronRight, faHouse, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Collapse, ConfigProvider } from 'antd'
 import { useState } from 'react'
@@ -50,9 +50,8 @@ const items = {
     { content: "Quản lý lớp học phần", to: "/lop-hoc-phan" },
     { content: "Thống kê số lớp", to: "/thong-ke-so-lop" }
   ],
-  thongKe: [
-    { content: "Thiết lập định mức tiền theo tiết", to: "/dinh-muc-tien" },
-    { content: "Hệ số tính tiền", to: "/he-so-tinh-tien" },
+  thietLapTienDay: [
+    { content: "Cài đặt hệ số", to: "/cai-dat" },
     { content: "Tra cứu tiền dạy", to: "/tinh-tien-day" },
   ]
 }
@@ -99,15 +98,15 @@ function Sidebar() {
                 </ul>
               ),
             },
-            // {
-            //   key: "4",
-            //   label: <Header pathname={pathname} links={items.thongKe.map(i => i.to)} icon={faMagnifyingGlass} title="Tính tiền dạy" />,
-            //   children: (
-            //     <ul className='flex flex-col gap-2 ps-5 relative'>
-            //       {items.thongKe.map((i, j) => <SubLink active={pathname === i.to} {...i} key={j} />)}
-            //     </ul>
-            //   ),
-            // },
+            {
+              key: "4",
+              label: <Header pathname={pathname} links={items.thietLapTienDay.map(i => i.to)} icon={faMoneyBill} title="Tiền dạy học" />,
+              children: (
+                <ul className='flex flex-col gap-2 ps-5 relative'>
+                  {items.thietLapTienDay.map((i, j) => <SubLink active={pathname === i.to} {...i} key={j} />)}
+                </ul>
+              ),
+            },
           ]} />
       </ConfigProvider>
 
