@@ -7,6 +7,7 @@ import GiangVien from "./pages/GiangVien"
 import Khoa from "./pages/Khoa";
 import HocPhan from "./pages/HocPhan";
 import HocKi from "./pages/HocKi";
+import LopHocPhan from "./pages/LopHocPhan";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
 
           <Route path="/hoc-ki" element={<HocKi />} />
           <Route path="/hoc-phan" element={<HocPhan />} />
-          <Route path="/lop-hoc-phan" element={""} />
+          <Route path="/lop-hoc-phan" element={<LopHocPhan />} />
           {/* <Route path="/thoi-khoa-bieu" element={""} /> */}
           <Route path="/thong-ke-so-lop" element={""} />
         </Route>

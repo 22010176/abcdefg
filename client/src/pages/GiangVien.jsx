@@ -100,7 +100,7 @@ function GiangVien() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={pageState.giangVienData} />
+      <Table size="small" columns={columns} dataSource={pageState.giangVienData} />
 
       <Modal title="Thêm giảng viên"
         open={pageState.createForm}

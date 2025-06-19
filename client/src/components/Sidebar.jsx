@@ -48,7 +48,6 @@ const items = {
     { content: "Quản lý học kì", to: "/hoc-ki" },
     { content: "Quản lý học phần", to: "/hoc-phan" },
     { content: "Quản lý lớp học phần", to: "/lop-hoc-phan" },
-    // { content: "Phân công giảng viên", to: "/thoi-khoa-bieu" },
     { content: "Thống kê số lớp", to: "/thong-ke-so-lop" }
   ],
   thongKe: [

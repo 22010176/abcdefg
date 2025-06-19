@@ -24,3 +24,8 @@ export async function getHocKi() {
   const result = await axios.get("http://localhost:5096/HocKi")
   return result.data
 }
+
+export async function getLopHocPhan() {
+  const result = await axios.get("http://localhost:5096/LopHocPhan")
+  return result.data
+}

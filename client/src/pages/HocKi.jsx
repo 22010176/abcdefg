@@ -78,7 +78,7 @@ function HocKi() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={pageState.data} />
+      <Table size="small" columns={columns} dataSource={pageState.data} />
 
       <Modal title="Thêm học kì"
         open={pageState.createForm}

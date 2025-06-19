@@ -79,7 +79,7 @@ function BangCap() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={pageState.data} size="small" pagination={{ pageSize: 10, }} />
+      <Table size="small" columns={columns} dataSource={pageState.data} pagination={{ pageSize: 10, }} />
 
       <Modal title="Thêm bằng cấp"
         open={pageState.createForm}
