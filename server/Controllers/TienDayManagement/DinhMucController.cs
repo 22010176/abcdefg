@@ -40,7 +40,7 @@ public class DinhMucController(AppDbContext context) : ControllerBase
     {
       GiaTri = input.GiaTri,
       NamApDung = input.NamApDung,
-      thoiGianCapNhat = DateTime.UtcNow
+      ThoiGianCapNhat = DateTime.UtcNow
     };
     context.DinhMucTietChuan.Add(dinhMucTietChuan);
     context.SaveChanges();

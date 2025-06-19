@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, DatePicker, InputNumber, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
-import { getDinhMuc, getHeSoLopHocPhan } from "../../utils/api";
+import { useEffect, useState } from "react";
+
+import { getHeSoLopHocPhan } from "../../utils/api";
 
 const url = "http://localhost:5096/HeSoLopHocPhan"
 async function createHeSoLopHocPhan({ giaTri, namApDung, soSinhVienToiDa }) {
@@ -108,7 +109,6 @@ function CaiDatDinhMuc() {
               namApDung: form.namApDung.year(),
               soSinhVienToiDa: form.soSinhVienToiDa,
             }
-            console.log(input)
             createHeSoLopHocPhan(input)
               .then(data => setData(data.map((i, j) => ({ ...i, key: j }))))
             setForm(e => ({ ...e, giaTri: undefined, soSinhVienToiDa: undefined }))

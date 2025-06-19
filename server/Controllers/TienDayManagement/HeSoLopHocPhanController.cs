@@ -30,7 +30,7 @@ public class HeSoLopHocPhanController(AppDbContext context) : ControllerBase
       GiaTri = 1.0,
       NamApDung = year,
       SoSinhVienToiDa = 150,
-      thoiGianCapNhat = DateTime.MinValue
+      ThoiGianCapNhat = DateTime.MinValue
     };
 
     context.HeSoLopHocPhan.Add(heSoLopHocPhan);
@@ -47,7 +47,7 @@ public class HeSoLopHocPhanController(AppDbContext context) : ControllerBase
       GiaTri = input.GiaTri,
       NamApDung = input.NamApDung,
       SoSinhVienToiDa = input.SoSinhVienToiDa,
-      thoiGianCapNhat = DateTime.UtcNow
+      ThoiGianCapNhat = DateTime.UtcNow
     };
 
     context.HeSoLopHocPhan.Add(heSoLopHocPhan);
@@ -65,7 +65,7 @@ public class HeSoLopHocPhanController(AppDbContext context) : ControllerBase
     heSoLopHocPhan.GiaTri = input.GiaTri;
     heSoLopHocPhan.NamApDung = input.NamApDung;
     heSoLopHocPhan.SoSinhVienToiDa = input.SoSinhVienToiDa;
-    heSoLopHocPhan.thoiGianCapNhat = DateTime.UtcNow;
+    heSoLopHocPhan.ThoiGianCapNhat = DateTime.UtcNow;
     Console.WriteLine(input.NamApDung);
     context.SaveChanges();
     return Ok(GetHeSoLopHocPhan(context, input.NamApDung));

@@ -32,8 +32,6 @@ function QuanLyLop() {
   const [pageState, setPageState] = useState({
     createForm: false,
     updateForm: false,
-    hocKiData: [],
-    hocPhanData: []
   })
   const [createForm, setCreateForm] = useState({ ...createDefaultValue })
   const [updateForm, setUpdateForm] = useState({ id: -1, ...updateDefaultValue })

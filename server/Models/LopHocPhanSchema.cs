@@ -4,6 +4,32 @@ namespace server.Models;
 
 public class HocPhan
 {
+  private static readonly string[] TenHocPhanMau = [
+        "Toán cao cấp", "Vật lý đại cương", "Hóa học đại cương", "Cơ sở dữ liệu",
+        "Lập trình hướng đối tượng", "Cấu trúc dữ liệu", "Mạng máy tính",
+        "Trí tuệ nhân tạo", "Hệ điều hành", "Phân tích thiết kế hệ thống",
+        "Marketing căn bản", "Kinh tế vĩ mô", "Quản trị học", "Tiếng Anh chuyên ngành"
+    ];
+  private static readonly Random random = new();
+
+  public static List<HocPhan> Generate(int count)
+  {
+    var list = new List<HocPhan>();
+
+    for (int i = 1; i <= count; i++)
+    {
+      var ten = TenHocPhanMau[random.Next(TenHocPhanMau.Length)];
+      list.Add(new HocPhan
+      {
+        Id = i,
+        MaHocPhan = $"HP{i:D3}",
+        TenHocPhan = ten,
+        SoTinChi = random.Next(2, 6) // từ 2 đến 5 tín chỉ
+      });
+    }
+
+    return list;
+  }
   [Key]
   public int Id { get; set; }
   public string MaHocPhan { get; set; } = null!;
@@ -13,6 +39,24 @@ public class HocPhan
 
 public class HeSoHocPhan
 {
+  private static readonly Random random = new();
+  public static List<HeSoHocPhan> Generate(int count, int maxHocPhanId)
+  {
+    var list = new List<HeSoHocPhan>();
+
+    for (int i = 1; i <= count; i++)
+    {
+      list.Add(new HeSoHocPhan
+      {
+        Id = i,
+        GiaTri = Math.Round(random.NextDouble() * 1.5 + 0.5, 2), // từ 0.5 đến 2.0
+        ThoiGianCapNhat = DateTime.Now.AddDays(-random.Next(0, 180)), // cập nhật trong vòng 6 tháng gần đây
+        HocPhanId = random.Next(1, maxHocPhanId + 1)
+      });
+    }
+
+    return list;
+  }
   [Key]
   public int Id { get; set; }
   public double GiaTri { get; set; }
@@ -24,6 +68,44 @@ public class HeSoHocPhan
 
 public class HocKi
 {
+  public static List<HocKi> Generate(int startYear, int numberOfYears)
+  {
+    var list = new List<HocKi>();
+    int id = 1;
+
+    for (int year = startYear; year < startYear + numberOfYears; year++)
+    {
+      // Học kỳ 1
+      list.Add(new HocKi
+      {
+        Id = id++,
+        TenHocKi = $"Học kỳ 1 - {year}",
+        ThoiGianBatDau = new DateTime(year, 8, 15),
+        ThoiGianKetThuc = new DateTime(year + 1, 1, 5)
+      });
+
+      // Học kỳ 2
+      list.Add(new HocKi
+      {
+        Id = id++,
+        TenHocKi = $"Học kỳ 2 - {year}",
+        ThoiGianBatDau = new DateTime(year + 1, 1, 10),
+        ThoiGianKetThuc = new DateTime(year + 1, 6, 1)
+      });
+
+      // Học kỳ hè (optional)
+      list.Add(new HocKi
+      {
+        Id = id++,
+        TenHocKi = $"Học kỳ hè - {year}",
+        ThoiGianBatDau = new DateTime(year + 1, 6, 10),
+        ThoiGianKetThuc = new DateTime(year + 1, 8, 1)
+      });
+    }
+
+    return list;
+  }
+
   [Key]
   public int Id { get; set; }
   public string TenHocKi { get; set; } = null!;
@@ -33,6 +115,27 @@ public class HocKi
 
 public class LopHocPhan
 {
+  private static readonly Random random = new();
+  public static List<LopHocPhan> Generate(int count, int maxHocPhanId, int maxHocKiId, int maxGiangVienId, double percentNullGiangVien = 0.2)
+  {
+    var list = new List<LopHocPhan>();
+
+    for (int i = 1; i <= count; i++)
+    {
+      bool isGiangVienNull = random.NextDouble() < percentNullGiangVien;
+      list.Add(new LopHocPhan
+      {
+        Id = i,
+        TenLopHocPhan = $"LHP{i:D3}",
+        SoSinhVienDangKi = random.Next(20, 81),
+        HocPhanId = random.Next(1, maxHocPhanId + 1),
+        HocKiId = random.Next(1, maxHocKiId + 1),
+        GiangVienId = isGiangVienNull ? null : random.Next(1, maxGiangVienId + 1)
+      });
+    }
+
+    return list;
+  }
   [Key]
   public int Id { get; set; }
   public string TenLopHocPhan { get; set; } = null!;

@@ -33,12 +33,12 @@ function CaiDatDinhMuc() {
       </div>
 
       <form className="flex gap-5 mb-5">
-        <InputNumber style={{ width: '100%' }} placeholder="Giá trị định mức"
-          value={form.giaTri}
-          onChange={(e) => setForm({ ...form, giaTri: e })} />
         <DatePicker style={{ width: '100%' }} picker="year"
           value={form.namApDung}
           onChange={e => setForm({ ...form, namApDung: e })} />
+        <InputNumber style={{ width: '100%' }} placeholder="Giá trị định mức"
+          value={form.giaTri}
+          onChange={(e) => setForm({ ...form, giaTri: e })} />
 
         <Button className="" variant="solid" color="green" icon={<FontAwesomeIcon icon={faPlus} />}
           onClick={() => {
