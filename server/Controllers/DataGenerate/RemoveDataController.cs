@@ -47,4 +47,27 @@ public class RemoveDataController(AppDbContext context) : ControllerBase
     context.SaveChanges();
     return Ok();
   }
+
+  [HttpDelete("delete-lop-hoc-phan")]
+  public ActionResult DeleteLopHocPhan()
+  {
+    context.LopHocPhan.RemoveRange(context.LopHocPhan);
+    context.SaveChanges();
+    return Ok();
+  }
+
+  [HttpDelete]
+  public ActionResult Delete()
+  {
+    context.BangCap.RemoveRange(context.BangCap);
+    context.Khoa.RemoveRange(context.Khoa);
+    context.GiangVien.RemoveRange(context.GiangVien);
+    context.HocKi.RemoveRange(context.HocKi);
+    context.HocPhan.RemoveRange(context.HocPhan);
+    context.LopHocPhan.RemoveRange(context.LopHocPhan);
+    context.DinhMucTietChuan.RemoveRange(context.DinhMucTietChuan);
+    context.HeSoLopHocPhan.RemoveRange(context.HeSoLopHocPhan);
+    context.SaveChanges();
+    return Ok();
+  }
 }

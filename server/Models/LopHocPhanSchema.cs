@@ -21,7 +21,6 @@ public class HocPhan
       var ten = TenHocPhanMau[random.Next(TenHocPhanMau.Length)];
       list.Add(new HocPhan
       {
-        Id = i,
         MaHocPhan = $"HP{i:D3}",
         TenHocPhan = ten,
         SoTinChi = random.Next(2, 6) // từ 2 đến 5 tín chỉ
@@ -116,7 +115,7 @@ public class HocKi
 public class LopHocPhan
 {
   private static readonly Random random = new();
-  public static List<LopHocPhan> Generate(int count, int maxHocPhanId, int maxHocKiId, int maxGiangVienId, double percentNullGiangVien = 0.2)
+  public static List<LopHocPhan> Generate(int count, List<HocPhan> hocPhan, List<HocKi> hocKi, List<GiangVien> giangVien, double percentNullGiangVien = 0.2)
   {
     var list = new List<LopHocPhan>();
 
@@ -125,12 +124,11 @@ public class LopHocPhan
       bool isGiangVienNull = random.NextDouble() < percentNullGiangVien;
       list.Add(new LopHocPhan
       {
-        Id = i,
         TenLopHocPhan = $"LHP{i:D3}",
-        SoSinhVienDangKi = random.Next(20, 81),
-        HocPhanId = random.Next(1, maxHocPhanId + 1),
-        HocKiId = random.Next(1, maxHocKiId + 1),
-        GiangVienId = isGiangVienNull ? null : random.Next(1, maxGiangVienId + 1)
+        SoSinhVienDangKi = random.Next(150),
+        HocPhanId = hocPhan[random.Next(hocPhan.Count)].Id,
+        HocKiId = hocKi[random.Next(hocKi.Count)].Id,
+        GiangVienId = isGiangVienNull ? null : giangVien[random.Next(giangVien.Count)].Id
       });
     }
 

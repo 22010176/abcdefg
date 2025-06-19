@@ -1,14 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router"
 import '@ant-design/v5-patch-for-react-19';
+import { BrowserRouter, Route, Routes } from "react-router";
 
-import Layout from "./components/Layout"
-import BangCap from "./pages/BangCap"
-import GiangVien from "./pages/GiangVien"
-import Khoa from "./pages/Khoa";
-import HocPhan from "./pages/HocPhan";
-import HocKi from "./pages/HocKi";
-import LopHocPhan from "./pages/LopHocPhan";
+import Layout from "./components/Layout";
+import BangCap from "./pages/BangCap";
 import CaiDatHeSo from "./pages/CaiDatHeSo";
+import GiangVien from "./pages/GiangVien";
+import HocKi from "./pages/HocKi";
+import HocPhan from "./pages/HocPhan";
+import Khoa from "./pages/Khoa";
+import LopHocPhan from "./pages/LopHocPhan";
+import TinhTienDay from "./pages/TinhTienDay";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="/thong-ke-so-lop" element={""} />
 
           <Route path="/cai-dat" element={<CaiDatHeSo />} />
-          <Route path="/tinh-tien-day" element={""} />
+          <Route path="/tinh-tien-day" element={<TinhTienDay />} />
         </Route>
       </Routes>
     </BrowserRouter>
