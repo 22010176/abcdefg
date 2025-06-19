@@ -36,7 +36,7 @@ public class GenerateDataController(AppDbContext context) : ControllerBase
   public async Task<ActionResult> TaoUc2()
   {
     var hocPhan = HocPhan.Generate(100);
-    var hocKi = HocKi.Generate(2000, 2030);
+    var hocKi = HocKi.Generate(2000, 30);
     await context.HocPhan.AddRangeAsync(hocPhan);
     await context.HocKi.AddRangeAsync(hocKi);
     await context.SaveChangesAsync();
@@ -45,8 +45,10 @@ public class GenerateDataController(AppDbContext context) : ControllerBase
     hocKi = await context.HocKi.ToListAsync();
     var giangVien = await context.GiangVien.ToListAsync();
 
+    var heSoHocPhan = HeSoHocPhan.Generate(10000, hocPhan);
     var lopHocPhan = LopHocPhan.Generate(10000, hocPhan, hocKi, giangVien);
     await context.LopHocPhan.AddRangeAsync(lopHocPhan);
+    await context.HeSoHocPhan.AddRangeAsync(heSoHocPhan);
     await context.SaveChangesAsync();
 
     return Ok();

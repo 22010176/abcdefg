@@ -39,7 +39,7 @@ public class HocPhan
 public class HeSoHocPhan
 {
   private static readonly Random random = new();
-  public static List<HeSoHocPhan> Generate(int count, int maxHocPhanId)
+  public static List<HeSoHocPhan> Generate(int count, List<HocPhan> hocPhan)
   {
     var list = new List<HeSoHocPhan>();
 
@@ -47,10 +47,9 @@ public class HeSoHocPhan
     {
       list.Add(new HeSoHocPhan
       {
-        Id = i,
         GiaTri = Math.Round(random.NextDouble() * 1.5 + 0.5, 2), // từ 0.5 đến 2.0
         ThoiGianCapNhat = DateTime.Now.AddDays(-random.Next(0, 180)), // cập nhật trong vòng 6 tháng gần đây
-        HocPhanId = random.Next(1, maxHocPhanId + 1)
+        HocPhanId = hocPhan[random.Next(hocPhan.Count)].Id
       });
     }
 
