@@ -6,11 +6,7 @@ import { getTienDayToanTruong } from "../utils/api"
 
 function ThongKeTienDayNam() {
   const [data, setData] = useState([])
-  // const [namHoc, setNamHoc] = useState([])
   const [nam, setNam] = useState(dayjs())
-
-  console.log(data)
-
 
   const allData = useMemo(function () {
     const temp = {}
