@@ -56,7 +56,7 @@ const items = {
   ],
   thongKe: [
     { content: "Thống kê theo khoa", to: "/thong-ke-theo-khoa" },
-    { content: "Thống kê theo năm học", to: "/thong-ke-theo-nam-hoc" },
+    { content: "Thống kê theo năm", to: "/thong-ke-theo-nam" },
     { content: "Thống kê theo học kì", to: "/thong-ke-theo-hoc-ki" },
 
   ]

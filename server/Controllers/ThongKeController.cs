@@ -53,7 +53,9 @@ SELECT
         LIMIT 1
     ) dinhMucTinChi,
     hp.TenHocPhan,
-    hk.TenHocKi
+    hk.TenHocKi,
+    YEAR(hk.ThoiGianBatDau) namHoc,
+    lhp.HocKiId
 FROM giangvien gv
 INNER JOIN bangcap bc ON gv.BangCapId = bc.Id
 INNER JOIN khoa k ON gv.KhoaId = k.Id
@@ -84,6 +86,8 @@ ORDER BY gv.Id;
         dinhMucTinChi = reader.IsDBNull(11) ? 1 : reader.GetInt32(11),
         TenHocPhan = reader.IsDBNull(12) ? "" : reader.GetString(12),
         TenHocKi = reader.IsDBNull(13) ? "" : reader.GetString(13),
+        NamHoc = reader.IsDBNull(14) ? 0 : reader.GetUInt32(14),
+        HocKiId = reader.IsDBNull(15) ? 0 : reader.GetInt32(15)
       });
     }
     return Ok(result);

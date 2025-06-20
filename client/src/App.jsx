@@ -34,7 +34,7 @@ function App() {
           <Route path="/tinh-tien-day" element={<TinhTienDay />} />
 
           <Route path="/thong-ke-theo-khoa" element={<ThongKeTienDayKhoa />} />
-          <Route path="/thong-ke-theo-nam-hoc" element={<ThongKeTienDayNam />} />
+          <Route path="/thong-ke-theo-nam" element={<ThongKeTienDayNam />} />
           <Route path="/thong-ke-theo-hoc-ki" element={<ThongKeTienDayHocKi />} />
         </Route>
       </Routes>
