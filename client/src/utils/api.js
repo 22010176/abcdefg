@@ -44,3 +44,17 @@ export async function getTienDayToanTruong() {
   const result = await axios.get(`http://localhost:5096/ThongKe/lay-tien-day-toan-truong`)
   return result.data
 }
+
+export async function GetThongKeKhoa() {
+  const result = await axios.get(`http://localhost:5096/ThongKe/thong-ke-khoa`)
+  return result.data
+}
+
+export async function GetThongKeBangCap() {
+  const result = await axios.get(`http://localhost:5096/ThongKe/thong-ke-bang-cap`)
+  return result.data
+}
+export async function GetThongKeLopHocPhan() {
+  const result = await axios.get(`http://localhost:5096/ThongKe/thong-ke-lop-hoc-phan`)
+  return result.data
+}

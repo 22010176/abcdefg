@@ -6,7 +6,6 @@ import { getHocKi, getTienDayToanTruong } from "../utils/api"
 
 function ThongKeTienDayHocKi() {
   const [data, setData] = useState([])
-  // const [namHoc, setNamHoc] = useState([])
   const [nam, setNam] = useState(dayjs())
   const [hocKi, setHocKi] = useState([])
   const [selectHocKi, setSelectHocKi] = useState(null)
@@ -48,7 +47,7 @@ function ThongKeTienDayHocKi() {
 
   return (
     <div>
-      <h1 className="text-2xl mb-5 font-bold uppercase">Thông kê tiền dạy theo học kì</h1>
+      <h1 className="text-2xl mb-5 font-bold uppercase">Thống kê tiền dạy theo học kì</h1>
       <DatePicker
         picker="year"
         value={nam}

@@ -92,4 +92,108 @@ ORDER BY gv.Id;
     }
     return Ok(result);
   }
+
+  [HttpGet("thong-ke-khoa")]
+  public ActionResult ThongKeKhoa()
+  {
+    var conn = DatabaseUtils.GetConnection();
+    string query = """
+SELECT 
+	  k.Id,
+    k.MaKhoa,
+    k.TenKhoa,
+    COUNT(DISTINCT gv.Id) soLuongGiangVien
+FROM khoa k
+INNER JOIN giangvien gv ON gv.KhoaId = k.Id
+GROUP BY k.Id
+ORDER BY soLuongGiangVien DESC;
+""";
+    using MySqlCommand mySqlCommand = new(query, conn);
+    using var reader = mySqlCommand.ExecuteReader();
+
+    List<object> result = [];
+    while (reader.Read())
+    {
+      result.Add(new
+      {
+        Id = reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+        MaKhoa = reader.IsDBNull(1) ? "" : reader.GetString(1),
+        TenKhoa = reader.IsDBNull(2) ? "" : reader.GetString(2),
+        soLuongGiangVien = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+      });
+    }
+    return Ok(result);
+  }
+
+  [HttpGet("thong-ke-bang-cap")]
+  public ActionResult ThongKeBangCap()
+  {
+    var conn = DatabaseUtils.GetConnection();
+    string query = """
+SELECT 
+	  bc.Id,
+    bc.MaBangCap,
+    bc.TenBangCap,
+    COUNT(DISTINCT gv.Id) soLuongGiangVien
+FROM bangCap bc
+INNER JOIN giangvien gv ON gv.BangCapId = bc.Id
+GROUP BY bc.Id
+ORDER BY soLuongGiangVien DESC;
+""";
+    using MySqlCommand mySqlCommand = new(query, conn);
+    using var reader = mySqlCommand.ExecuteReader();
+
+    List<object> result = [];
+    while (reader.Read())
+    {
+      result.Add(new
+      {
+        Id = reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+        MaBangCap = reader.IsDBNull(1) ? "" : reader.GetString(1),
+        TenBangCap = reader.IsDBNull(2) ? "" : reader.GetString(2),
+        soLuongGiangVien = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+      });
+    }
+    return Ok(result);
+  }
+  [HttpGet("thong-ke-lop-hoc-phan")]
+  public ActionResult ThongKeLopHocPhan()
+  {
+    var conn = DatabaseUtils.GetConnection();
+    string query = """
+SELECT 
+	  hp.Id,
+    hp.MaHocPhan,
+    hp.TenHocPhan,
+    hp.SoTinChi,
+    hk.Id,
+    hk.TenHocKi,
+    YEAR(hk.ThoiGianBatDau) namHoc,
+    COUNT(DISTINCT lhp.Id) soLopHocPhan
+FROM hocphan hp
+INNER JOIN lophocphan lhp ON lhp.HocPhanId = hp.Id
+INNER JOIN hocki hk ON lhp.HocKiId = hk.Id
+GROUP BY hp.Id, hk.Id
+ORDER BY hp.Id, soLophocPhan DESC, soTinChi
+""";
+    using MySqlCommand mySqlCommand = new(query, conn);
+    using var reader = mySqlCommand.ExecuteReader();
+
+    List<object> result = [];
+    while (reader.Read())
+    {
+      result.Add(new
+      {
+        Id = reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+        MaHocPhan = reader.IsDBNull(1) ? "" : reader.GetString(1),
+        TenHocPhan = reader.IsDBNull(2) ? "" : reader.GetString(2),
+        SoTinChi = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+        HocKiId = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
+        TenHocKi = reader.IsDBNull(5) ? "" : reader.GetString(5),
+        namHoc = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
+        soLopHocPhan = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
+      });
+    }
+    return Ok(result);
+  }
 }

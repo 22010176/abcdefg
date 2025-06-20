@@ -37,7 +37,7 @@ function ThongKeTienDayNam() {
 
   return (
     <div>
-      <h1 className="text-2xl mb-5 font-bold uppercase">Thông kê tiền dạy theo năm học</h1>
+      <h1 className="text-2xl mb-5 font-bold uppercase">Thống kê tiền dạy theo năm học</h1>
       <DatePicker
         picker="year"
         value={nam}

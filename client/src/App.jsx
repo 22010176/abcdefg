@@ -9,10 +9,12 @@ import HocKi from "./pages/HocKi";
 import HocPhan from "./pages/HocPhan";
 import Khoa from "./pages/Khoa";
 import LopHocPhan from "./pages/LopHocPhan";
-import TinhTienDay from "./pages/TinhTienDay";
+import ThongKeGiangVien from './pages/ThongKeGiangVien';
+import ThongKeLopHocPhan from './pages/ThongKeLopHocPhan';
+import ThongKeTienDayHocKi from './pages/ThongKeTienDayHocKi';
 import ThongKeTienDayKhoa from './pages/ThongKeTienDayKhoa';
 import ThongKeTienDayNam from './pages/ThongKeTienDayNam';
-import ThongKeTienDayHocKi from './pages/ThongKeTienDayHocKi';
+import TinhTienDay from "./pages/TinhTienDay";
 
 function App() {
   return (
@@ -23,12 +25,12 @@ function App() {
           <Route path="/khoa" element={<Khoa />} />
           <Route path="/giang-vien" element={<GiangVien />} />
           <Route path="/bang-cap" element={<BangCap />} />
-          <Route path="/thong-ke-giang-vien" element={""} />
+          <Route path="/thong-ke-giang-vien" element={<ThongKeGiangVien />} />
 
           <Route path="/hoc-ki" element={<HocKi />} />
           <Route path="/hoc-phan" element={<HocPhan />} />
           <Route path="/lop-hoc-phan" element={<LopHocPhan />} />
-          <Route path="/thong-ke-so-lop" element={""} />
+          <Route path="/thong-ke-so-lop" element={<ThongKeLopHocPhan />} />
 
           <Route path="/cai-dat" element={<CaiDatHeSo />} />
           <Route path="/tinh-tien-day" element={<TinhTienDay />} />
