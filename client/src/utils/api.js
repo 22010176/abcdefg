@@ -39,3 +39,8 @@ export async function getHeSoLopHocPhan(year) {
   const result = await axios.get(`http://localhost:5096/HeSoLopHocPhan/${year}`)
   return result.data
 }
+
+export async function getTienDayToanTruong() {
+  const result = await axios.get(`http://localhost:5096/ThongKe/lay-tien-day-toan-truong`)
+  return result.data
+}

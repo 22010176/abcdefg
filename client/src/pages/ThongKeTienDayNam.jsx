@@ -1,11 +1,11 @@
 import { faInfo } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button, Select, Table } from "antd"
+import { Button, Table } from "antd"
 import { useEffect, useMemo, useState } from "react"
 
 import { getTienDayToanTruong } from "../utils/api"
 
-function TinhTienDay() {
+function ThongKeTienDayNam() {
   const [data, setData] = useState([])
   const [selected, setSelected] = useState()
   const giangVienData = useMemo(function () {
@@ -81,4 +81,4 @@ function TinhTienDay() {
   )
 }
 
-export default TinhTienDay
+export default ThongKeTienDayNam

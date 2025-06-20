@@ -1,5 +1,5 @@
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
-import { faChalkboardTeacher, faChevronRight, faHouse, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardTeacher, faChartColumn, faChevronRight, faHouse, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Collapse, ConfigProvider } from 'antd'
 import { useState } from 'react'
@@ -53,6 +53,12 @@ const items = {
   thietLapTienDay: [
     { content: "Cài đặt hệ số", to: "/cai-dat" },
     { content: "Tra cứu tiền dạy", to: "/tinh-tien-day" },
+  ],
+  thongKe: [
+    { content: "Thống kê theo khoa", to: "/thong-ke-theo-khoa" },
+    { content: "Thống kê theo năm học", to: "/thong-ke-theo-nam-hoc" },
+    { content: "Thống kê theo học kì", to: "/thong-ke-theo-hoc-ki" },
+
   ]
 }
 
@@ -104,6 +110,15 @@ function Sidebar() {
               children: (
                 <ul className='flex flex-col gap-2 ps-5 relative'>
                   {items.thietLapTienDay.map((i, j) => <SubLink active={pathname === i.to} {...i} key={j} />)}
+                </ul>
+              ),
+            },
+            {
+              key: "5",
+              label: <Header pathname={pathname} links={items.thongKe.map(i => i.to)} icon={faChartColumn} title="Thống kê" />,
+              children: (
+                <ul className='flex flex-col gap-2 ps-5 relative'>
+                  {items.thongKe.map((i, j) => <SubLink active={pathname === i.to} {...i} key={j} />)}
                 </ul>
               ),
             },

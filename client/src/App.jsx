@@ -10,6 +10,9 @@ import HocPhan from "./pages/HocPhan";
 import Khoa from "./pages/Khoa";
 import LopHocPhan from "./pages/LopHocPhan";
 import TinhTienDay from "./pages/TinhTienDay";
+import ThongKeTienDayKhoa from './pages/ThongKeTienDayKhoa';
+import ThongKeTienDayNam from './pages/ThongKeTienDayNam';
+import ThongKeTienDayHocKi from './pages/ThongKeTienDayHocKi';
 
 function App() {
   return (
@@ -29,6 +32,10 @@ function App() {
 
           <Route path="/cai-dat" element={<CaiDatHeSo />} />
           <Route path="/tinh-tien-day" element={<TinhTienDay />} />
+
+          <Route path="/thong-ke-theo-khoa" element={<ThongKeTienDayKhoa />} />
+          <Route path="/thong-ke-theo-nam-hoc" element={<ThongKeTienDayNam />} />
+          <Route path="/thong-ke-theo-hoc-ki" element={<ThongKeTienDayHocKi />} />
         </Route>
       </Routes>
     </BrowserRouter>
