@@ -1,8 +1,9 @@
-import { DatePicker, Table } from "antd"
+import { DatePicker, Table, Button } from "antd"
 import dayjs from "dayjs"
 import { useEffect, useMemo, useState } from "react"
 
 import { getTienDayToanTruong } from "../utils/api"
+import { exportToExcel } from "../utils/fileExports"
 
 function ThongKeTienDayNam() {
   const [data, setData] = useState([])
@@ -38,10 +39,16 @@ function ThongKeTienDayNam() {
   return (
     <div>
       <h1 className="text-2xl mb-5 font-bold uppercase">Thống kê tiền dạy theo năm học</h1>
-      <DatePicker
-        picker="year"
-        value={nam}
-        onChange={e => setNam(e)} />
+      <div className="flex gap-2">
+        <DatePicker
+          picker="year"
+          value={nam}
+          onChange={e => setNam(e)} />
+        <Button className="ml-2" type="primary"
+          onClick={() => exportToExcel(allData, `thong-ke-tien-day-khoa-${nam.year()}.xlsx`)}>
+          Xuất Excel
+        </Button>
+      </div>
 
       <Table className="my-2" size="small" pagination={{ pageSize: 10 }}
         columns={columns}
