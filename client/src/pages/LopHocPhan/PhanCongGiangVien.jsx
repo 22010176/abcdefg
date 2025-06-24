@@ -1,6 +1,6 @@
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Select, Table, Tag } from "antd";
+import { Button, message, Select, Table, Tag } from "antd";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
@@ -51,7 +51,7 @@ function PhanCongGiangVien() {
       }
     },
     {
-      title: '', key: "action", render: (_, entry) => (
+      key: "action", render: (_, entry) => (
         entry.id != updateForm.id ?
           <Button color="geekblue" variant="solid" icon={<FontAwesomeIcon icon={faChalkboardTeacher} />}
             onClick={() => {
@@ -66,7 +66,12 @@ function PhanCongGiangVien() {
             }} /> :
           <Button color="blue" variant="solid" icon={<FontAwesomeIcon icon={faSave} />}
             onClick={async () => {
-              await updateLop(updateForm).then(data => updateLopHocPhanData(data))
+              await updateLop(updateForm).then(data => {
+                message.info("Phân công giảng viên thành công!")
+                updateLopHocPhanData(data)
+              }).catch(e => {
+                message.error("Phân công giảng viên thất bại!")
+              })
               setUpdateForm({ id: -1, ...updateDefaultValue })
             }} />
       )

@@ -48,5 +48,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     //   new Khoa { Id = 9, MaKhoa = "KH009", TenKhoa = "Khoa Ngôn ngữ", TenVietTat = "NN", MoTaNhiemVu = "Đào tạo ngoại ngữ và nghiên cứu ngôn ngữ học." },
     //   new Khoa { Id = 10, MaKhoa = "KH010", TenKhoa = "Khoa Toán – Tin", TenVietTat = "TT", MoTaNhiemVu = "Đào tạo chuyên sâu về toán học ứng dụng và khoa học máy tính." }
     // );
+    foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+    {
+      foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
+    }
   }
 }

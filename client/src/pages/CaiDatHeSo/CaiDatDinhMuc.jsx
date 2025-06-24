@@ -1,6 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, DatePicker, InputNumber, Select, Table } from "antd";
+import { Button, DatePicker, InputNumber, message, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -46,7 +46,15 @@ function CaiDatDinhMuc() {
               giaTri: form.giaTri,
               namApDung: form.namApDung.year(),
             }
-            createDinhMuc(input).then(data => setData(data.map((i, j) => ({ ...i, key: j }))))
+            if (input.giaTri == undefined) return message.error("Giá trị không được để trống!")
+            if (input.namApDung == undefined) return message.error("Năm áp dụng không được để trống!")
+
+            createDinhMuc(input).then(data => {
+              setData(data.map((i, j) => ({ ...i, key: j })))
+              message.info("Thêm thành công!")
+            }).catch(e => {
+              message.error("Thêm thất bại!")
+            })
             setForm({ giaTri: undefined, namApDung: undefined })
           }}>Thêm</Button>
       </form>

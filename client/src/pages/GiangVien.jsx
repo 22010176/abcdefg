@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, DatePicker, Input, Modal, Select, Table } from "antd";
+import { Button, DatePicker, Input, message, Modal, Popconfirm, Select, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -78,11 +78,21 @@ function GiangVien() {
                   ngaySinh: dayjs(entry.ngaySinh)
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => {
+            <Popconfirm title="Bạn có chắc là xóa giảng viên này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => {
                 const result = await deleteGiangVien(entry.id)
+                  .then(i => {
+                    message.info("Xóa giảng viên thành công!")
+                    return i
+                  }).catch(e => {
+                    message.error("Xóa giảng viên thất bại!")
+                    return e
+                  })
                 setPageState(e => ({ ...e, giangVienData: [...result] }))
-              }} />
+              }}>
+
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
           </div>
         )
       }
@@ -95,7 +105,10 @@ function GiangVien() {
         <h1 className="text-2xl font-bold uppercase">Quản lý giảng viên</h1>
 
         <Button variant="solid" color="green" icon={<FontAwesomeIcon icon={faPlus} />}
-          onClick={() => setPageState(e => ({ ...e, createForm: true }))}>
+          onClick={() => {
+            setPageState(e => ({ ...e, createForm: true }))
+            setCreateForm({ ...defaultValue })
+          }}>
           Thêm giảng viên
         </Button>
       </div>
@@ -108,9 +121,24 @@ function GiangVien() {
         footer={[
           <Button variant="solid" color="blue"
             onClick={async () => {
+              if (createForm.hoTen == '') return message.error("Họ tên không được để trống!")
+              if (createForm.dienThoai == '') return message.error("Số điện thoại không được để trống!")
+              if (createForm.email == '') return message.error("Email không được để trống!")
+              if (!createForm.email.includes("@university.edu.vn")) return message.error("Email không đúng định dạng!")
+              if (pageState.giangVienData.find(i => i.email === createForm.email || i.dienThoai === createForm.dienThoai) != null) return message.error("Giảng viên đã tồn tại!")
+              if (createForm.khoaId == 0) return message.error("Khoa không được để trống!")
+              if (createForm.bangCapId == 0) return message.error("Bằng cấp không được để trống!")
+              if (createForm.ngaySinh == null) return message.error("Ngày sinh không được để trống!")
               createForm.ngaySinh = createForm.ngaySinh.toDate()
-              console.log(createForm)
+
               const result = await createGiangVien(createForm)
+                .then(i => {
+                  message.info("Thêm giảng viên thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Thêm giảng viên thất bại!")
+                  return e
+                })
               setPageState(e => ({ ...e, createForm: false, giangVienData: [...result] }))
               setCreateForm({ ...defaultValue })
             }} >
@@ -139,6 +167,7 @@ function GiangVien() {
           <div className="mb-5 flex flex-col gap-1">
             <label>Email</label>
             <Input
+              placeholder="horace.harmon.lurton@university.edu.vn"
               value={createForm.email}
               onChange={e => setCreateForm(data => ({ ...data, email: e.target.value }))} />
           </div>
@@ -166,9 +195,25 @@ function GiangVien() {
         footer={[
           <Button variant="solid" color="blue"
             onClick={async () => {
+              if (updateForm.hoTen == '') return message.error("Họ tên không được để trống!")
+              if (updateForm.dienThoai == '') return message.error("Số điện thoại không được để trống!")
+              if (updateForm.email == '') return message.error("Email không được để trống!")
+              if (pageState.giangVienData.find(i => i.email === updateForm.email || i.dienThoai === updateForm.dienThoai) != null) return message.error("Giảng viên đã tồn tại!")
+              if (!updateForm.email.includes("@university.edu.vn")) return message.error("Email không đúng định dạng!")
+              if (updateForm.khoaId == 0) return message.error("Khoa không được để trống!")
+              if (updateForm.bangCapId == 0) return message.error("Bằng cấp không được để trống!")
+              if (updateForm.ngaySinh == null) return message.error("Ngày sinh không được để trống!")
+
               updateForm.ngaySinh = updateForm.ngaySinh.toDate()
-              console.log(updateForm)
+
               const result = await updateGiangVien(updateForm)
+                .then(i => {
+                  message.info("Sửa giảng viên thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Sửa giảng viên thất bại!")
+                  return e
+                })
               setPageState(e => ({ ...e, updateForm: false, giangVienData: [...result] }))
               setUpdateForm({ id: 0, ...defaultValue })
             }} >
@@ -197,6 +242,7 @@ function GiangVien() {
           <div className="mb-5 flex flex-col gap-1">
             <label>Email</label>
             <Input
+              placeholder="horace.harmon.lurton@university.edu.vn"
               value={updateForm.email}
               onChange={e => setUpdateForm(data => ({ ...data, email: e.target.value }))} />
           </div>

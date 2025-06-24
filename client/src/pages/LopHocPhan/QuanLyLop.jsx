@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, InputNumber, Modal, Select, Table, Tag } from "antd";
+import { Button, Input, InputNumber, message, Modal, Popconfirm, Select, Table, Tag } from "antd";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
@@ -74,8 +74,17 @@ function QuanLyLop() {
                   hocPhanId: entry.hocPhanId,
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => updateLopHocPhanData(await deleteLop(entry.id))} />
+            <Popconfirm title="Bạn có chắc là xóa lớp học phần này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => updateLopHocPhanData(await deleteLop(entry.id)
+                .then(i => {
+                  message.info("Xóa lớp học phần thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Xóa lớp học phần thất bại!")
+                  return e
+                }))} >
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
           </div>
         )
       }
@@ -87,7 +96,10 @@ function QuanLyLop() {
         <h1 className="text-2xl font-bold uppercase">Quản lý lớp học phần</h1>
 
         <Button variant="solid" color="green" icon={<FontAwesomeIcon icon={faPlus} />}
-          onClick={() => setPageState(e => ({ ...e, createForm: true }))}>
+          onClick={() => {
+            setPageState(e => ({ ...e, createForm: true }))
+            setCreateForm({ ...createDefaultValue })
+          }}>
           Thêm lớp
         </Button>
       </div>
@@ -99,8 +111,21 @@ function QuanLyLop() {
         onCancel={() => setPageState(e => ({ ...e, createForm: false }))}
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
-            console.log(createForm)
+            if (createForm.tenLopHocPhan == '') return message.error("Tên lớp học phần không được để trống!")
+            if (pageState.data.find(i => i.tenLopHocPhan === createForm.tenLopHocPhan)) return message.error("Lớp học phần đã tồn tại!")
+            if (createForm.hocPhanId == 0) return message.error("Học phần không được để trống!")
+            if (createForm.hocKiId == 0) return message.error("Học kì không được để trống!")
+            if (createForm.soLuong == 0) return message.error("Số lượng lớp học phần không được để trống!")
+
             const result = await createLop(createForm)
+              .then(i => {
+                message.info("Thêm lớp học phần thành công!")
+                return i
+              }).catch(e => {
+                message.error("Thêm lớp học phần thất bại!")
+                return e
+              })
+
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
             setCreateForm({ ...createDefaultValue })
           }} >
@@ -143,9 +168,24 @@ function QuanLyLop() {
         onCancel={() => setPageState(e => ({ ...e, updateForm: false }))}
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
+            if (updateForm.tenLopHocPhan == '') return message.error("Tên lớp học phần không được để trống!")
+            if (pageState.data.find(i => i.tenLopHocPhan === updateForm.tenLopHocPhan)) return message.error("Lớp học phần đã tồn tại!")
+            if (updateForm.hocPhanId == 0) return message.error("Học phần không được để trống!")
+            if (updateForm.hocKiId == 0) return message.error("Học kì không được để trống!")
             const result = await updateLop(updateForm)
-            setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
-            setUpdateForm({ ...updateDefaultValue })
+              .then(i => {
+                message.info("Sửa lớp học phần thành công!")
+                return i
+              }).catch(e => {
+                message.error("Sửa lớp học phần thất bại!")
+                return e
+              })
+            console.log(result)
+            try {
+
+              setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
+              setUpdateForm({ ...updateDefaultValue })
+            } catch { }
           }} >
             Gửi
           </Button>
@@ -156,6 +196,7 @@ function QuanLyLop() {
               <div className="mb-5 flex flex-col gap-1">
                 <label>Học kì</label>
                 <Select
+                  disabled
                   options={hocKiData.map(i => ({ value: i.id, label: i.tenHocKi }))}
                   value={updateForm.hocKiId}
                   onChange={e => setUpdateForm(data => ({ ...data, hocKiId: e }))} />
@@ -163,6 +204,7 @@ function QuanLyLop() {
               <div className="mb-5 flex flex-col gap-1">
                 <label>Học phần</label>
                 <Select
+                  disabled
                   options={hocPhanData.map(i => ({ value: i.id, label: i.tenHocPhan }))}
                   value={updateForm.hocPhanId}
                   onChange={e => setUpdateForm(data => ({ ...data, hocPhanId: e }))} />

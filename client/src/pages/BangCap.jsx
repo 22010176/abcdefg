@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, InputNumber, Modal, Table } from "antd";
+import { Button, Input, InputNumber, message, Modal, Popconfirm, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -61,8 +61,18 @@ function BangCap() {
                   heSo: entry.heSo
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => updateBangCapData(await deleteBangCap(entry.id))} />
+            <Popconfirm title="Bạn có chắc là xóa bằng cấp này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => {
+                updateBangCapData(await deleteBangCap(entry.id).then(i => {
+                  message.info("Xóa bằng cấp thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Xóa bằng cấp thất bại!")
+                  return e
+                }))
+              }}>
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
           </div>
         )
       }
@@ -74,7 +84,10 @@ function BangCap() {
         <h1 className="text-2xl font-bold uppercase">Quản lý bằng cấp</h1>
 
         <Button variant="solid" color="green" icon={<FontAwesomeIcon icon={faPlus} />}
-          onClick={() => setPageState(e => ({ ...e, createForm: true }))}>
+          onClick={() => {
+            setPageState(e => ({ ...e, createForm: true }))
+            setCreateForm({ tenBangCap: "", tenVietTat: "", heSo: undefined })
+          }}>
           Thêm bằng cấp
         </Button>
       </div>
@@ -87,8 +100,18 @@ function BangCap() {
         footer={[
           <Button variant="solid" color="blue"
             onClick={async () => {
+              if (createForm.tenBangCap == '') return message.error("Tên bằng cấp không được để trống!")
+              if (createForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
+              if (createForm.heSo < 1.0) return message.error("Hệ số bằng cấp không được để trống!")
+              if (pageState.data.find(i => i.tenBangCap === createForm.tenBangCap || i.tenVietTat === createForm.tenVietTat)) return message.error("Tên bằng cấp đã tồn tại!")
               const result = await createBangCap(createForm)
-              console.log(result)
+                .then(i => {
+                  message.info("Thêm bằng cấp thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Thêm bằng cấp thất bại!")
+                  return e
+                })
               setPageState(e => ({ ...e, createForm: false, data: [...result] }))
               setCreateForm({ ten: "", tenVietTat: "", heSo: "" })
             }} >
@@ -122,7 +145,19 @@ function BangCap() {
         footer={[
           <Button variant="solid" color="blue"
             onClick={async () => {
+              if (updateForm.tenBangCap == '') return message.error("Tên bằng cấp không được để trống!")
+              if (updateForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
+              if (pageState.data.find(i => i.tenBangCap === updateForm.tenBangCap || i.tenVietTat === updateForm.tenVietTat)) return message.error("Tên bằng cấp đã tồn tại!")
+              if (updateForm.heSo < 1.0) return message.error("Hệ số bằng cấp không được để trống!")
+
               const result = await updateBangCap(updateForm)
+                .then(i => {
+                  message.info("Sửa bằng cấp thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Sửa bằng cấp thất bại!")
+                  return e
+                })
               setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
               setUpdateForm({ ten: "", tenVietTat: "", heSo: "" })
             }} >

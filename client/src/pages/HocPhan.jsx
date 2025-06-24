@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input, InputNumber, Modal, Table } from "antd";
+import { Button, Input, InputNumber, message, Modal, Popconfirm, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -55,8 +55,18 @@ function HocPhan() {
                   soTinChi: entry.soTinChi
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => updateHocPhanData(await deleteHocPhan(entry.id))} />
+            <Popconfirm title="Bạn có chắc là xóa học phần này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => updateHocPhanData(await deleteHocPhan(entry.id)
+                .then(i => {
+                  message.info("Xóa học phần thành công!")
+                  return i
+                }).catch(e => {
+                  message.error("Xóa học phần thất bại!")
+                  return e
+                }))} >
+
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
           </div>
         )
       }
@@ -81,8 +91,21 @@ function HocPhan() {
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
             console.log(createForm)
+            if (createForm.maHocPhan == '') return message.error("Mã học phần không được để trống!")
+            if (createForm.tenHocPhan == '') return message.error("Tên học phần không được để trống!")
+            if (pageState.data.find(i => i.maHocPhan === createForm.maHocPhan || i.tenHocPhan === createForm.tenHocPhan)) return message.error("Học phần đã tồn tại!")
+            if (createForm.soTinChi == 0) return message.error("Số tín chỉ không được để trống!")
+            if (createForm.soTinChi < 0) return message.error("Số tín chỉ không được âm!")
+
             const result = await createHocPhan(createForm)
-            console.log(result)
+              .then(i => {
+                message.info("Thêm học phần thành công!")
+                return i
+              }).catch(e => {
+                message.error("Thêm học phần thất bại!")
+                return e
+              })
+
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
             setCreateForm({ ...defaultValue })
           }} >
@@ -116,7 +139,18 @@ function HocPhan() {
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
             // console.log(createForm)
+            if (updateForm.maHocPhan == '') return message.error("Mã học phần không được để trống!")
+            if (updateForm.tenHocPhan == '') return message.error("Tên học phần không được để trống!")
+            if (updateForm.soTinChi == 0) return message.error("Số tín chỉ không được để trống!")
+            if (updateForm.soTinChi < 0) return message.error("Số tín chỉ không được âm!")
             const result = await updateHocPhan(updateForm)
+              .then(i => {
+                message.info("Sửa học phần thành công!")
+                return i
+              }).catch(e => {
+                message.error("Sửa học phần thất bại!")
+                return e
+              })
             // console.log(result)
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
             setUpdateForm({ ...defaultValue })

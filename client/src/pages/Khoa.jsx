@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button, Input, Modal, Table } from "antd"
+import { Button, Input, message, Modal, Popconfirm, Table } from "antd"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getKhoa } from "../utils/api";
@@ -59,9 +59,20 @@ function Khoa() {
                   moTaNhiemVu: entry.moTaNhiemVu
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => updateKhoaData(await deleteKhoa(entry.id))} />
-          </div>
+            <Popconfirm title="Bạn có chắc là xóa khoa này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => {
+                updateKhoaData(await deleteKhoa(entry.id)
+                  .then(i => {
+                    message.info("Xóa khoa thành công!")
+                    return i
+                  }).catch(e => {
+                    message.error("Xóa khoa thất bại!")
+                    return e
+                  }))
+              }}>
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
+          </div >
         )
       }
     },
@@ -85,8 +96,19 @@ function Khoa() {
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
             console.log(createForm)
+            if (createForm.tenKhoa == '') return message.error("Tên khoa không được để trống!")
+            if (createForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
+            if (createForm.moTaNhiemVu == '') return message.error("Mô tả nhiệm vụ không được để trống!")
             const result = await createKhoa(createForm)
-            console.log(result)
+              .then(i => {
+                message.info("Thêm khoa thành công!")
+                return i
+              }).catch(e => {
+                message.error("Thêm khoa thất bại!")
+                return e
+              })
+            updateKhoaData(result)
+
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
             setCreateForm({ ...defaultValue })
           }} >
@@ -121,8 +143,20 @@ function Khoa() {
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
             // console.log(createForm)
+            if (updateForm.tenKhoa == '') return message.error("Tên khoa không được để trống!")
+            if (updateForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
+            if (updateForm.moTaNhiemVu == '') return message.error("Mô tả nhiệm vụ không được để trống!")
+            if (pageState.data.find(i => i.tenKhoa === updateForm.tenKhoa)) return message.error("Tên khoa đã tồn tại!")
+
             const result = await updateKhoa(updateForm)
-            // console.log(result)
+              .then(i => {
+                message.info("Sửa khoa thành công!")
+                return i
+              }).catch(e => {
+                message.error("Sửa khoa thất bại!")
+                return e
+              })
+
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
             setCreateForm({ ...defaultValue })
           }} >

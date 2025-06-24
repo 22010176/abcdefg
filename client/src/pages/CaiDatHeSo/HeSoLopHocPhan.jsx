@@ -1,6 +1,6 @@
 import { faEdit, faPlus, faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, DatePicker, InputNumber, Table } from "antd";
+import { Button, DatePicker, InputNumber, message, Popconfirm, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -64,7 +64,12 @@ function CaiDatDinhMuc() {
                   namApDung: updateForm.namApDung.year(),
                   soSinhVienToiDa: updateForm.soSinhVienToiDa,
                 }
-                await updateHeSoLopHocPhan(input).then(data => setData(data.map((i, j) => ({ ...i, key: j }))))
+                if (input.giaTri == undefined) return message.error("Giá trị không được để trống")
+
+                await updateHeSoLopHocPhan(input).then(data => {
+                  setData(data.map((i, j) => ({ ...i, key: j })))
+                  message.info("Cập nhật thành công!")
+                }).catch(e => message.error("Cập nhật thất bại!"))
                 setUpdateForm({ id: 0, giaTri: undefined, namApDung: dayjs(), soSinhVienToiDa: 0 })
               }} />
             : <Button color="blue" variant="solid" icon={<FontAwesomeIcon icon={faEdit} />}
@@ -75,11 +80,20 @@ function CaiDatDinhMuc() {
                 soSinhVienToiDa: _.soSinhVienToiDa,
               })} />}
 
-          <Button disabled={data.length == 1 || _.soSinhVienToiDa == 150} color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-            onClick={async () => {
+          <Popconfirm title="Bạn có chắc là xóa hệ số lớp học phần này không?" okText="Xóa" cancelText="Hủy"
+            onConfirm={async () => {
               const result = await deleteHeSoLopHocPhan({ id: _.id })
+                .then(data => {
+                  message.info("Xóa thành công!")
+                  return data
+                }).catch(e => {
+                  message.error("Xóa thất bại!")
+                  return e
+                })
               setData(result.map((i, j) => ({ ...i, key: j })))
-            }} />
+            }}>
+            <Button disabled={data.length == 1 || _.soSinhVienToiDa == 150} color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+          </Popconfirm>
         </div>
       )
     },
@@ -109,8 +123,15 @@ function CaiDatDinhMuc() {
               namApDung: form.namApDung.year(),
               soSinhVienToiDa: form.soSinhVienToiDa,
             }
+            if (input.giaTri == undefined) return message.error("Giá trị không được để trống!")
+            if (input.soSinhVienToiDa == undefined) return message.error("Số sinh viên không được để trống!")
+
             createHeSoLopHocPhan(input)
-              .then(data => setData(data.map((i, j) => ({ ...i, key: j }))))
+              .then(data => {
+                setData(data.map((i, j) => ({ ...i, key: j })))
+                message.info("Thêm thành công!")
+              })
+              .catch(e => message.error("Thêm thất bại!"))
             setForm(e => ({ ...e, giaTri: undefined, soSinhVienToiDa: undefined }))
           }}>Thêm</Button>
       </form>

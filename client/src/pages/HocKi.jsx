@@ -1,12 +1,12 @@
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, DatePicker, Input, Modal, Table } from "antd";
+import { Button, DatePicker, Input, message, Modal, Popconfirm, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 import { getHocKi } from "../utils/api";
-import { formatDate } from "../utils/dataFormat";
+import { formatDate2 } from "../utils/dataFormat";
 
 const url = "http://localhost:5096/HocKi"
 
@@ -44,8 +44,8 @@ function HocKi() {
   const columns = [
     { title: 'STT', dataIndex: 'stt', key: 'stt', render: (_, __, i) => i + 1 },
     { title: 'Tên học kì', dataIndex: 'tenHocKi', key: 'tenHocKi', },
-    { title: 'Thời gian bắt đầu', dataIndex: 'thoiGianBatDau', key: 'thoiGianBatDau', render: _ => formatDate(_) },
-    { title: 'Thời gian kết thúc', dataIndex: 'thoiGianKetThuc', key: 'thoiGianKetThuc', render: _ => formatDate(_) },
+    { title: 'Thời gian bắt đầu', dataIndex: 'thoiGianBatDau', key: 'thoiGianBatDau', render: _ => formatDate2(_) },
+    { title: 'Thời gian kết thúc', dataIndex: 'thoiGianKetThuc', key: 'thoiGianKetThuc', render: _ => formatDate2(_) },
     {
       key: "action", render: (_, entry) => {
         return (
@@ -60,8 +60,19 @@ function HocKi() {
                   thoiGianKetThuc: dayjs(entry.thoiGianKetThuc)
                 })
               }} />
-            <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={async () => updateHocPhanData(await deleteHocKi(entry.id))} />
+            <Popconfirm title="Bạn có chắc là xóa học kì này không?" okText="Xóa" cancelText="Hủy"
+              onConfirm={async () => {
+                updateHocPhanData(await deleteHocKi(entry.id)
+                  .then(i => {
+                    message.info("Xóa học kì thành công!")
+                    return i
+                  }).catch(e => {
+                    message.error("Xóa học kì thất bại!")
+                    return e
+                  }))
+              }}>
+              <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
+            </Popconfirm>
           </div>
         )
       }
@@ -90,8 +101,19 @@ function HocKi() {
               thoiGianBatDau: createForm.thoiGianBatDau.toDate(),
               thoiGianKetThuc: createForm.thoiGianKetThuc.toDate(),
             }
+            if (input.tenHocKi == '') return message.error("Tên học kì không được để trống!")
+            if (input.thoiGianBatDau == null) return message.error("Thời gian bắt đầu không được để trống!")
+            if (input.thoiGianKetThuc == null) return message.error("Thời gian kết thúc không được để trống!")
+
             const result = await createHocKi(input)
-            console.log(result)
+              .then(i => {
+                message.info("Thêm học kì thành công!")
+                return i
+              }).catch(e => {
+                message.error("Thêm học kì thất bại!")
+                return e
+              })
+
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
             setCreateForm({ ...defaultValue })
           }} >
@@ -131,7 +153,20 @@ function HocKi() {
               thoiGianBatDau: updateForm.thoiGianBatDau.toDate(),
               thoiGianKetThuc: updateForm.thoiGianKetThuc.toDate(),
             }
-            const result = await updateHocKi(input)
+
+            if (input.tenHocKi == '') return message.error("Tên học kì không được để trống!")
+            if (pageState.data.find(i => i.tenHocKi === input.tenHocKi)) return message.error("Học kì đã tồn tại!")
+            if (input.thoiGianBatDau == null) return message.error("Thời gian bắt đầu không được để trống!")
+            if (input.thoiGianKetThuc == null) return message.error("Thời gian kết thúc không được để trống!")
+
+            const result = await updateHocKi(input).then(i => {
+              message.info("Sửa học kì thành công!")
+              return i
+            }).catch(e => {
+              message.error("Sửa học kì thất bại!")
+              return e
+            })
+
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
             setUpdateForm({ ...defaultValue })
           }} >
