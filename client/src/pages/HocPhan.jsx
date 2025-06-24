@@ -62,7 +62,7 @@ function HocPhan() {
                   return i
                 }).catch(e => {
                   message.error("Xóa học phần thất bại!")
-                  return e
+                  return []
                 }))} >
 
               <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
@@ -85,12 +85,11 @@ function HocPhan() {
 
       <Table size="small" columns={columns} dataSource={pageState.data} />
 
-      <Modal title="Thêm bằng cấp"
+      <Modal title="Thêm học phần"
         open={pageState.createForm}
         onCancel={() => setPageState(e => ({ ...e, createForm: false }))}
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
-            console.log(createForm)
             if (createForm.maHocPhan == '') return message.error("Mã học phần không được để trống!")
             if (createForm.tenHocPhan == '') return message.error("Tên học phần không được để trống!")
             if (pageState.data.find(i => i.maHocPhan === createForm.maHocPhan || i.tenHocPhan === createForm.tenHocPhan)) return message.error("Học phần đã tồn tại!")
@@ -103,7 +102,7 @@ function HocPhan() {
                 return i
               }).catch(e => {
                 message.error("Thêm học phần thất bại!")
-                return e
+                return []
               })
 
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
@@ -149,7 +148,7 @@ function HocPhan() {
                 return i
               }).catch(e => {
                 message.error("Sửa học phần thất bại!")
-                return e
+                return []
               })
             // console.log(result)
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))

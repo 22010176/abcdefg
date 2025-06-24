@@ -86,7 +86,7 @@ LEFT JOIN giangvien gv ON lhp.giangvienid = gv.id;
     {
       lopHocPhan.Add(new()
       {
-        TenLopHocPhan = input.TenLopHocPhan,
+        TenLopHocPhan = $"{input.TenLopHocPhan}- N{i.ToString().PadLeft(2, '0')}",
         SoSinhVienDangKi = rand.Next(5, 150),
         HocPhanId = input.HocPhanId,
         HocKiId = input.HocKiId,

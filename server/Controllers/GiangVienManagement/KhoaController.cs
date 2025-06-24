@@ -55,6 +55,7 @@ ORDER BY khoa.id;
   {
     Khoa khoa = new()
     {
+      MaKhoa = input.MaKhoa,
       MoTaNhiemVu = input.MoTaNhiemVu,
       TenKhoa = input.TenKhoa,
       TenVietTat = input.TenVietTat
@@ -91,6 +92,7 @@ ORDER BY khoa.id;
 
 public record KhoaInput
 {
+  public string? MaKhoa { get; set; }
   public string? TenKhoa { get; set; }
   public string? TenVietTat { get; set; }
   public string? MoTaNhiemVu { get; set; }

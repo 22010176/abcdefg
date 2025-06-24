@@ -68,7 +68,7 @@ function HocKi() {
                     return i
                   }).catch(e => {
                     message.error("Xóa học kì thất bại!")
-                    return e
+                    return []
                   }))
               }}>
               <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
@@ -111,7 +111,7 @@ function HocKi() {
                 return i
               }).catch(e => {
                 message.error("Thêm học kì thất bại!")
-                return e
+                return []
               })
 
             setPageState(e => ({ ...e, createForm: false, data: [...result] }))
@@ -155,7 +155,7 @@ function HocKi() {
             }
 
             if (input.tenHocKi == '') return message.error("Tên học kì không được để trống!")
-            if (pageState.data.find(i => i.tenHocKi === input.tenHocKi)) return message.error("Học kì đã tồn tại!")
+            if (pageState.data.find(i => input.id != i.id && i.tenHocKi === input.tenHocKi)) return message.error("Học kì đã tồn tại!")
             if (input.thoiGianBatDau == null) return message.error("Thời gian bắt đầu không được để trống!")
             if (input.thoiGianKetThuc == null) return message.error("Thời gian kết thúc không được để trống!")
 
@@ -164,7 +164,7 @@ function HocKi() {
               return i
             }).catch(e => {
               message.error("Sửa học kì thất bại!")
-              return e
+              return []
             })
 
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))

@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 import { getBangCap, getGiangVien, getKhoa } from "../utils/api";
-import { formatDate } from "../utils/dataFormat";
+import { formatDate2 } from "../utils/dataFormat";
 
 const url = "http://localhost:5096/GiangVien"
 async function createGiangVien({ maGiangVien, hoTen, dienThoai, email, khoaId, bangCapId, ngaySinh }) {
@@ -55,7 +55,7 @@ function GiangVien() {
     { title: 'STT', dataIndex: 'stt', key: 'stt', render: (_, __, i) => i + 1 },
     { title: 'Mã giảng viên', dataIndex: 'id', key: 'id', render: _ => `GV_${_}` },
     { title: 'Họ tên', dataIndex: 'hoTen', key: 'hoTen', },
-    { title: 'Ngày sinh', dataIndex: 'ngaySinh', key: 'ngaySinh', render: value => formatDate(value) },
+    { title: 'Ngày sinh', dataIndex: 'ngaySinh', key: 'ngaySinh', render: value => formatDate2(value) },
     { title: 'Số điện thoại', dataIndex: 'dienThoai', key: 'dienThoai', },
     { title: 'Email', dataIndex: 'email', key: 'email', },
     { title: 'Khoa', dataIndex: 'tenKhoa', key: 'tenKhoa', },
@@ -86,7 +86,7 @@ function GiangVien() {
                     return i
                   }).catch(e => {
                     message.error("Xóa giảng viên thất bại!")
-                    return e
+                    return []
                   })
                 setPageState(e => ({ ...e, giangVienData: [...result] }))
               }}>
@@ -123,9 +123,12 @@ function GiangVien() {
             onClick={async () => {
               if (createForm.hoTen == '') return message.error("Họ tên không được để trống!")
               if (createForm.dienThoai == '') return message.error("Số điện thoại không được để trống!")
+              if (createForm.dienThoai.length != 10) return message.error("Số điện thoại không đúng định dạng!")
               if (createForm.email == '') return message.error("Email không được để trống!")
               if (!createForm.email.includes("@university.edu.vn")) return message.error("Email không đúng định dạng!")
-              if (pageState.giangVienData.find(i => i.email === createForm.email || i.dienThoai === createForm.dienThoai) != null) return message.error("Giảng viên đã tồn tại!")
+              // if (pageState.giangVienData
+              //   ?.find(i => i.email === createForm.email || i.dienThoai === createForm.dienThoai) != null)
+              //   return message.error("Giảng viên đã tồn tại!")
               if (createForm.khoaId == 0) return message.error("Khoa không được để trống!")
               if (createForm.bangCapId == 0) return message.error("Bằng cấp không được để trống!")
               if (createForm.ngaySinh == null) return message.error("Ngày sinh không được để trống!")
@@ -137,7 +140,7 @@ function GiangVien() {
                   return i
                 }).catch(e => {
                   message.error("Thêm giảng viên thất bại!")
-                  return e
+                  return []
                 })
               setPageState(e => ({ ...e, createForm: false, giangVienData: [...result] }))
               setCreateForm({ ...defaultValue })
@@ -197,13 +200,15 @@ function GiangVien() {
             onClick={async () => {
               if (updateForm.hoTen == '') return message.error("Họ tên không được để trống!")
               if (updateForm.dienThoai == '') return message.error("Số điện thoại không được để trống!")
+              if (updateForm.dienThoai?.length != 10) return message.error("Số điện thoại không đúng định dạng!")
               if (updateForm.email == '') return message.error("Email không được để trống!")
-              if (pageState.giangVienData.find(i => i.email === updateForm.email || i.dienThoai === updateForm.dienThoai) != null) return message.error("Giảng viên đã tồn tại!")
+              // if (pageState.giangVienData
+              //   ?.find(i => i.email === updateForm.email || i.dienThoai === updateForm.dienThoai) != null)
+              // return message.error("Giảng viên đã tồn tại!")
               if (!updateForm.email.includes("@university.edu.vn")) return message.error("Email không đúng định dạng!")
               if (updateForm.khoaId == 0) return message.error("Khoa không được để trống!")
               if (updateForm.bangCapId == 0) return message.error("Bằng cấp không được để trống!")
               if (updateForm.ngaySinh == null) return message.error("Ngày sinh không được để trống!")
-
               updateForm.ngaySinh = updateForm.ngaySinh.toDate()
 
               const result = await updateGiangVien(updateForm)
@@ -212,7 +217,7 @@ function GiangVien() {
                   return i
                 }).catch(e => {
                   message.error("Sửa giảng viên thất bại!")
-                  return e
+                  return []
                 })
               setPageState(e => ({ ...e, updateForm: false, giangVienData: [...result] }))
               setUpdateForm({ id: 0, ...defaultValue })

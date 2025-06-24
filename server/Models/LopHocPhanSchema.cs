@@ -145,5 +145,5 @@ public class LopHocPhan
   public HocKi? HocKi { get; set; }
 
   public int? GiangVienId { get; set; }
-  public GiangVien? GiangVien { get; set; }
+  // public GiangVien? GiangVien { get; set; }
 }

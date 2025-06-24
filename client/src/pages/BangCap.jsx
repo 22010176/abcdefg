@@ -68,7 +68,7 @@ function BangCap() {
                   return i
                 }).catch(e => {
                   message.error("Xóa bằng cấp thất bại!")
-                  return e
+                  return []
                 }))
               }}>
               <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
@@ -110,7 +110,7 @@ function BangCap() {
                   return i
                 }).catch(e => {
                   message.error("Thêm bằng cấp thất bại!")
-                  return e
+                  return []
                 })
               setPageState(e => ({ ...e, createForm: false, data: [...result] }))
               setCreateForm({ ten: "", tenVietTat: "", heSo: "" })
@@ -156,7 +156,7 @@ function BangCap() {
                   return i
                 }).catch(e => {
                   message.error("Sửa bằng cấp thất bại!")
-                  return e
+                  return []
                 })
               setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
               setUpdateForm({ ten: "", tenVietTat: "", heSo: "" })

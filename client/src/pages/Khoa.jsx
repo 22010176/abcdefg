@@ -11,13 +11,13 @@ const url = "http://localhost:5096/Khoa"
 //   return result.data
 // }
 
-async function createKhoa({ tenKhoa, tenVietTat, moTaNhiemVu }) {
-  const result = await axios.post(url, { tenKhoa, tenVietTat, moTaNhiemVu })
+async function createKhoa({ maKhoa, tenKhoa, tenVietTat, moTaNhiemVu }) {
+  const result = await axios.post(url, { maKhoa, tenKhoa, tenVietTat, moTaNhiemVu })
   return result.data
 }
 
-async function updateKhoa({ id, tenKhoa, tenVietTat, moTaNhiemVu }) {
-  const result = await axios.put(`${url}/${id}`, { tenKhoa, tenVietTat, moTaNhiemVu })
+async function updateKhoa({ id, maKhoa, tenKhoa, tenVietTat, moTaNhiemVu }) {
+  const result = await axios.put(`${url}/${id}`, { maKhoa, tenKhoa, tenVietTat, moTaNhiemVu })
   return result.data
 }
 
@@ -25,7 +25,7 @@ async function deleteKhoa(id) {
   const result = await axios.delete(`${url}/${id}`)
   return result.data
 }
-const defaultValue = { tenKhoa: "", tenVietTat: "", moTaNhiemVu: "" }
+const defaultValue = { maKhoa: "", tenKhoa: "", tenVietTat: "", moTaNhiemVu: "" }
 
 function Khoa() {
 
@@ -42,6 +42,7 @@ function Khoa() {
 
   const columns = [
     { title: 'STT', dataIndex: 'stt', key: 'stt', render: (_, __, i) => i + 1 },
+    { title: 'Mã khoa', dataIndex: 'maKhoa', key: 'maKhoa', },
     { title: 'Tên khoa', dataIndex: 'tenKhoa', key: 'tenKhoa', },
     { title: 'Tên viết tắt', dataIndex: 'tenVietTat', key: 'tenVietTat', },
     { title: 'Mô tả nhiệm vụ', dataIndex: 'moTaNhiemVu', key: 'moTaNhiemVu', },
@@ -54,6 +55,7 @@ function Khoa() {
                 setPageState(e => ({ ...e, updateForm: true }))
                 setUpdateForm({
                   id: entry.id,
+                  maKhoa: entry.maKhoa,
                   tenKhoa: entry.tenKhoa,
                   tenVietTat: entry.tenVietTat,
                   moTaNhiemVu: entry.moTaNhiemVu
@@ -67,7 +69,7 @@ function Khoa() {
                     return i
                   }).catch(e => {
                     message.error("Xóa khoa thất bại!")
-                    return e
+                    return []
                   }))
               }}>
               <Button color="red" variant="solid" icon={<FontAwesomeIcon icon={faTrash} />} />
@@ -95,7 +97,8 @@ function Khoa() {
         onCancel={() => setPageState(e => ({ ...e, createForm: false }))}
         footer={[
           <Button variant="solid" color="blue" onClick={async () => {
-            console.log(createForm)
+            if (pageState.data.find(i => i.maKhoa === createForm.maKhoa)) return message.error("Mã khoa đã tồn tại!")
+            if (createForm.maKhoa == '') return message.error("Mã khoa không được để trống!")
             if (createForm.tenKhoa == '') return message.error("Tên khoa không được để trống!")
             if (createForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
             if (createForm.moTaNhiemVu == '') return message.error("Mô tả nhiệm vụ không được để trống!")
@@ -105,7 +108,7 @@ function Khoa() {
                 return i
               }).catch(e => {
                 message.error("Thêm khoa thất bại!")
-                return e
+                return []
               })
             updateKhoaData(result)
 
@@ -116,6 +119,12 @@ function Khoa() {
           </Button>
         ]} >
         <form>
+          <div className="mb-5 flex flex-col gap-1">
+            <label>Mã khoa</label>
+            <Input
+              value={createForm.maKhoa}
+              onChange={e => setCreateForm(data => ({ ...data, maKhoa: e.target.value }))} />
+          </div>
           <div className="mb-5 flex flex-col gap-1">
             <label>Tên khoa</label>
             <Input
@@ -146,7 +155,7 @@ function Khoa() {
             if (updateForm.tenKhoa == '') return message.error("Tên khoa không được để trống!")
             if (updateForm.tenVietTat == '') return message.error("Tên viết tắt không được để trống!")
             if (updateForm.moTaNhiemVu == '') return message.error("Mô tả nhiệm vụ không được để trống!")
-            if (pageState.data.find(i => i.tenKhoa === updateForm.tenKhoa)) return message.error("Tên khoa đã tồn tại!")
+            if (pageState.data.find(i => i.id != updateForm.id && i.tenKhoa === updateForm.tenKhoa)) return message.error("Tên khoa đã tồn tại!")
 
             const result = await updateKhoa(updateForm)
               .then(i => {
@@ -154,7 +163,7 @@ function Khoa() {
                 return i
               }).catch(e => {
                 message.error("Sửa khoa thất bại!")
-                return e
+                return []
               })
 
             setPageState(e => ({ ...e, updateForm: false, data: [...result] }))
@@ -164,6 +173,13 @@ function Khoa() {
           </Button>
         ]} >
         <form>
+          <div className="mb-5 flex flex-col gap-1">
+            <label>Mã khoa</label>
+            <Input
+              disabled
+              value={updateForm.maKhoa}
+              onChange={e => setCreateForm(data => ({ ...data, maKhoa: e.target.value }))} />
+          </div>
           <div className="mb-5 flex flex-col gap-1">
             <label>Tên khoa</label>
             <Input
